@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS | Future of Design</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #00f2ff;
+            --text: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Background Animation */
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #00f2ff 0%, #7000ff 100%);
+            filter: blur(150px);
+            border-radius: 50%;
+            z-index: -1;
+            animation: move 20s infinite alternate;
+            top: -100px;
+            left: -100px;
+        }
+
+        @keyframes move {
+            from { transform: translate(0, 0); }
+            to { transform: translate(50vw, 20vh); }
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 8%;
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            z-index: 102; /* Sopra il menu mobile */
+        }
+
+        /* Desktop Nav */
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover { opacity: 1; color: var(--accent); }
+
+        .btn-contact {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 20px;
+        }
+
+        .btn-contact:hover { background: white; color: black; }
+
+        /* Mobile Menu Button */
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            z-index: 102;
+        }
+
+        /* Mobile Fullscreen Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            transform: translateY(-100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .mobile-menu a {
+            font-size: 2rem;
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+        }
+
+        .mobile-menu .btn-mobile {
+            margin-top: 20px;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 15%;
+            position: relative;
+        }
+
+        .badge {
+            background: var(--glass);
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #00f2ff, #7000ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            max-width: 600px;
+            font-size: 1.1rem;
+            opacity: 0.6;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        /* Buttons */
+        .cta-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .primary-btn, .secondary-btn {
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+
+        .primary-btn {
+            background: white;
+            color: black;
+            border: none;
+        }
+
+        .secondary-btn {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .primary-btn:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 242, 255, 0.2); }
+        .secondary-btn:hover { background: var(--glass); border-color: var(--accent); }
+
+        /* ================= MOBILE RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            nav {
+                padding: 20px 5%;
+            }
+
+            .desktop-nav {
+                display: none;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .hero {
+                padding: 0 5%;
+                align-items: center;
+            }
+
+            .blob {
+                width: 300px;
+                height: 300px;
+                filter: blur(100px);
+            }
+
+            h1 {
+                margin-bottom: 15px;
+            }
+
+            p {
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+
+            .cta-group {
+                flex-direction: column;
+                width: 100%;
+                gap: 15px;
+            }
+
+            .primary-btn, .secondary-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="blob"></div>
+    
+    <nav>
+        <div class="logo">NEXUS</div>
+        
+        <div class="desktop-nav">
+            <div class="nav-links">
+                <a href="#">Work</a>
+                <a href="#">Process</a>
+                <a href="#">About</a>
+            </div>
+            <button class="btn-contact">Let's Talk</button>
+        </div>
+
+        <button class="mobile-toggle" onclick="toggleMenu()">
+            <i data-lucide="menu"></i>
+        </button>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" onclick="toggleMenu()">Work</a>
+        <a href="#" onclick="toggleMenu()">Process</a>
+        <a href="#" onclick="toggleMenu()">About</a>
+        <button class="btn-contact btn-mobile" onclick="toggleMenu()">Let's Talk</button>
+    </div>
+
+    <main>
+        <section class="hero">
+            <div class="badge">Innovation meets Reality</div>
+            <h1>Architecting <br> <span class="gradient-text">Digital Dreams</span></h1>
+            <p>We build immersive digital experiences that push the boundaries of what's possible. High-end design for high-end visions.</p>
+            
+            <div class="cta-group">
+                <button class="primary-btn">Explore Projects</button>
+                <button class="secondary-btn">Watch Showreel</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Inizializza le icone
+        lucide.createIcons();
+
+        // Logica Menu Mobile
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.querySelector('.mobile-toggle i');
+            
+            menu.classList.toggle('active');
+            
+            // Cambia icona da Menu a X
+            if(menu.classList.contains('active')) {
+                icon.setAttribute('data-lucide', 'x');
+                document.body.style.overflow = 'hidden'; // Blocca lo scroll
+            } else {
+                icon.setAttribute('data-lucide', 'menu');
+                document.body.style.overflow = 'auto'; // Riabilita lo scroll
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
